@@ -20,6 +20,17 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #uncomment if you have defined services
 #rosbuild_gensrv()
 
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  rospy
+  std_msgs
+  genmsg
+  fingervision_msgs
+  cv_bridge
+  image_transport
+  camera_info_manager
+)
+
 set(PROJECT_BASE_DIR ${PROJECT_SOURCE_DIR}/..)
 set(FV_CORE_DIR ${PROJECT_BASE_DIR}/fv_core)
 set(THIRDPARTY_DIR ${PROJECT_BASE_DIR}/3rdparty)
@@ -54,27 +65,27 @@ message("OpenCV_LIBRARIES: ${OpenCV_LIBRARIES}")
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-#common commands for building c++ executables and libraries
-#rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
-#target_link_libraries(${PROJECT_NAME} another_library)
-#rosbuild_add_boost_directories()
-#rosbuild_link_boost(${PROJECT_NAME} thread)
-#rosbuild_add_executable(example examples/example.cpp)
-#target_link_libraries(example ${PROJECT_NAME})
-
-#Building libraries:
+catkin_package(
+  CATKIN_DEPENDS roscpp rospy std_msgs
+  # LIBRARIES ${PROJECT_SOURCE_DIR}/lib
+  )
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+  )
 
 add_library(fv_blob_tracker2
   ${FV_CORE_DIR}/blob_tracker2.cpp
   )
 target_link_libraries(fv_blob_tracker2
   ${OpenCV_LIBRARIES}
+  ${catkin_LIBRARIES}
   )
 add_library(fv_prox_vision
   ${FV_CORE_DIR}/prox_vision.cpp
   )
 target_link_libraries(fv_prox_vision
   ${OpenCV_LIBRARIES}
+  ${catkin_LIBRARIES}
   )
 # WITH_STEREO:
 # rosbuild_add_library(ayv_usb_stereo
@@ -88,8 +99,8 @@ add_library(ay_vision
   )
 target_link_libraries(ay_vision
   ${OpenCV_LIBRARIES}
+  ${catkin_LIBRARIES}
   )
-
 
 #Building executables:
 
@@ -103,11 +114,15 @@ add_executable(fv_core_node
   src/fv_core_node.cpp
   )
 target_link_libraries(fv_core_node
+  ${catkin_LIBRARIES}
   fv_blob_tracker2
   fv_prox_vision
   ay_vision
   ${OpenCV_LIBRARIES}
-  libcv_bridge.so
   boost_thread
   boost_system
+  # ${PROJECT_SOURCE_DIR}/lib/libcv_bridge.so
   )
+add_dependencies(fv_core_node fingervision_msgs_generate_message_cpp)
+add_dependencies(fv_core_node fingervision_gencpp)
+

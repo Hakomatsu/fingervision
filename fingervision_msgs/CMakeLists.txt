@@ -20,15 +20,30 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   )
 
-#uncomment if you have defined messages
+add_message_files(
+  FILES
+  Filter1ObjInfo.msg
+  Filter1Wrench.msg
+  BlobMove.msg
+  Int32Array.msg
+  BlobMoves.msg
+  ProxVision.msg
+  )
+
+add_service_files(
+  FILES
+  SetInt32.srv
+  SetString.srv
+  TakeSnapshot.srv
+  )
+
 generate_messages(
   DEPENDENCIES
   std_msgs
 )
-#uncomment if you have defined services
-#generate_messages()
 
 catkin_package(
+  CATKIN_DEPENDS message_runtime
   )
 
 include_directories(
