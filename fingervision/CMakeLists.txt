@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+project(fingervision)
+# include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
 # Set the build type.  Options are:
 #  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
@@ -8,8 +9,6 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 #  RelWithDebInfo : w/ debug symbols, w/ optimization
 #  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
 #set(ROS_BUILD_TYPE RelWithDebInfo)
-
-rosbuild_init()
 
 #set the default path for built executables to the "bin" directory
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -28,7 +27,7 @@ include_directories(${FV_CORE_DIR})
 include_directories(${THIRDPARTY_DIR})
 
 # ++++OPENCV-3.x++++
-find_package(OpenCV 3 REQUIRED)
+find_package(OpenCV 4 REQUIRED)
 message("OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}")
 message("OpenCV_LIBRARIES: ${OpenCV_LIBRARIES}")
 # ++++OPENCV-2.x++++
@@ -65,18 +64,18 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 
 #Building libraries:
 
-rosbuild_add_library(fv_blob_tracker2
-      ${FV_CORE_DIR}/blob_tracker2.cpp
-      )
+add_library(fv_blob_tracker2
+  ${FV_CORE_DIR}/blob_tracker2.cpp
+  )
 target_link_libraries(fv_blob_tracker2
-      ${OpenCV_LIBRARIES}
-      )
-rosbuild_add_library(fv_prox_vision
-      ${FV_CORE_DIR}/prox_vision.cpp
-      )
+  ${OpenCV_LIBRARIES}
+  )
+add_library(fv_prox_vision
+  ${FV_CORE_DIR}/prox_vision.cpp
+  )
 target_link_libraries(fv_prox_vision
-      ${OpenCV_LIBRARIES}
-      )
+  ${OpenCV_LIBRARIES}
+  )
 # WITH_STEREO:
 # rosbuild_add_library(ayv_usb_stereo
 #       ${THIRDPARTY_DIR}/ay_vision/usb_stereo.cpp
@@ -84,12 +83,12 @@ target_link_libraries(fv_prox_vision
 # target_link_libraries(ayv_usb_stereo
 #       ${OpenCV_LIBRARIES}
 #       )
-rosbuild_add_library(ay_vision
-      ${THIRDPARTY_DIR}/ay_vision/vision_util.cpp
-      )
+add_library(ay_vision
+  ${THIRDPARTY_DIR}/ay_vision/vision_util.cpp
+  )
 target_link_libraries(ay_vision
-      ${OpenCV_LIBRARIES}
-      )
+  ${OpenCV_LIBRARIES}
+  )
 
 
 #Building executables:
@@ -100,15 +99,15 @@ target_link_libraries(ay_vision
 # both opencv 2.4.8 and 2.4.13 will be linked simultaneously,
 # which causes a compile issue.
 
-rosbuild_add_executable(fv_core_node
-      src/fv_core_node.cpp
-      )
+add_executable(fv_core_node
+  src/fv_core_node.cpp
+  )
 target_link_libraries(fv_core_node
-      fv_blob_tracker2
-      fv_prox_vision
-      ay_vision
-      ${OpenCV_LIBRARIES}
-      libcv_bridge.so
-      boost_thread
-      boost_system
-      )
+  fv_blob_tracker2
+  fv_prox_vision
+  ay_vision
+  ${OpenCV_LIBRARIES}
+  libcv_bridge.so
+  boost_thread
+  boost_system
+  )

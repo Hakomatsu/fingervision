@@ -1,0 +1,19 @@
+<package>
+  <name>fingervision_msgs</name>
+  <version>0.0.0</version>
+  <description>
+     fingervision_msgs
+  </description>
+  <author>Akihiko Y</author>
+  <maintainer email="user@todo.todo">user</maintainer>
+  <license>Described in LICENSE</license>
+  <url>http://akihikoy.net/p/fv</url>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>std_msgs</build_depend>
+  <run_depend>std_msgs</run_depend>
+  <build_depend>message_generation</build_depend>
+  <run_depend>message_generation</run_depend>
+
+</package>
+
+

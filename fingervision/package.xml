@@ -1,0 +1,39 @@
+<package>
+  <name>fingervision</name>
+  <version>0.0.0</version>
+  <description>
+     fingervision
+  </description>
+  <author>Akihiko Y</author>
+  <maintainer email="user@todo.todo">user</maintainer>
+  <license>Described in LICENSE</license>
+  <url>http://akihikoy.net/p/fv</url>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>fingervision_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>std_srvs</build_depend>
+  <!--<depend package="cv_bridge"/>-->
+    <!--NOTE: Do not put cv_bridge here
+    since we want to use not standard version of opencv.
+    If we put cv_bridge as a dependency here,
+    both opencv 2.4.8 and 2.4.13 will be linked simultaneously,
+    which causes a compile issue.-->
+
+  <build_depend>image_transport</build_depend>
+  <build_depend>camera_info_manager</build_depend>
+
+  <run_depend>fingervision_msgs</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>std_srvs</run_depend>
+  <run_depend>image_transport</run_depend>
+  <run_depend>camera_info_manager</run_depend>
+
+  <!-- <export> -->
+  <!--   <cpp cflags="-I${prefix}/include -I${prefix}/../3rdparty" lflags="-L${prefix}/lib"/> -->
+  <!-- </export> -->
+
+</package>
+
+
