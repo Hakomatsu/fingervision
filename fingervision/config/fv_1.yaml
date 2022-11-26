@@ -4,7 +4,7 @@
 CameraInfo:
   -
     Name: fv_1
-    DevID: "1"
+    DevID: "4"
     Width: 320
     Height: 240
     PixelFormat: MJPG

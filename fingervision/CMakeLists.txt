@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.4.6)
+cmake_minimum_required(VERSION 3.0.2)
 project(fingervision)
 # include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
@@ -123,6 +123,6 @@ target_link_libraries(fv_core_node
   boost_system
   # ${PROJECT_SOURCE_DIR}/lib/libcv_bridge.so
   )
-add_dependencies(fv_core_node fingervision_msgs_generate_message_cpp)
-add_dependencies(fv_core_node fingervision_gencpp)
+# add_dependencies(fv_core_node fingervision_msgs_generate_message_cpp)
+# add_dependencies(fv_core_node fingervision_msgs_gencpp)
 
