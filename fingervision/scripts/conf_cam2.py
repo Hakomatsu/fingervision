@@ -53,7 +53,7 @@ def SetCtrlValue(cam_dev, ctrl, value):
   stdout,stderr,ec= ExecCmd(['uvcdynctrl', '-d', os.path.realpath(cam_dev), '-s', ctrl, '--', str(value)])
 
 def SetCtrlValues(cam_dev, ctrl_values):
-  for ctrl,value in ctrl_values.iteritems():
+  for ctrl,value in ctrl_values.items():
     SetCtrlValue(cam_dev, ctrl, value)
 
 def LoadFromYAML(filename):

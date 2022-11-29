@@ -58,7 +58,7 @@ def GetControls(cam_dev):
       value= s[idx_colon+1:].strip()
       if value[-1]==',':  value= value[:-1]
       ctrl_details[curr_ctrl][param_name]= value
-  for ctrl,details in ctrl_details.iteritems():
+  for ctrl,details in ctrl_details.items():
     details['Flags']= re.findall(r'[a-zA-Z0-9_]+', details['Flags'])
     details['Default']= int(details['Default'])
     if details['Type']=='Choice':
@@ -71,7 +71,7 @@ def GetControls(cam_dev):
       details['Values']= [values[i] if i in values else None for i in range(sorted(values.keys())[-1]+1)]
     elif details['Type'] in ('Boolean', 'Dword'):
       #(min,max,step) tuple.
-      details['Values']= map(int, re.match(r'\[\s*([\-\+0-9]+)\s*\.\.\s*([\-\+0-9]+)\s*,\s*step size\:\s*([\-\+0-9]+)\s*\]', details['Values']).groups())
+      details['Values']= list(map(int, re.match(r'\[\s*([\-\+0-9]+)\s*\.\.\s*([\-\+0-9]+)\s*,\s*step size\:\s*([\-\+0-9]+)\s*\]', details['Values']).groups()))
   return ctrls, ctrl_details
 
 def GetCtrlValue(cam_dev, ctrl):
@@ -86,7 +86,7 @@ def SetCtrlValue(cam_dev, ctrl, value):
   stdout,stderr,ec= ExecCmd(['uvcdynctrl', '-d', cam_dev, '-s', ctrl, '--', str(value)])
 
 def SetCtrlValues(cam_dev, ctrl_values):
-  for ctrl,value in ctrl_values.iteritems():
+  for ctrl,value in ctrl_values.items():
     SetCtrlValue(cam_dev, ctrl, value)
 
 
@@ -99,10 +99,10 @@ def GenerateImgCtrlWidges(cam_dev):
   for ctrl in ctrls:
     value= ctrl_values[ctrl]
     #print 'debug:',ctrl,value,ctrl_details[ctrl]['Values']
-    print ctrl,'=',value,ctrl_details[ctrl]['Values'][value] if ctrl_details[ctrl]['Type']=='Choice' else ''
+    print(ctrl,'=',value,ctrl_details[ctrl]['Values'][value] if ctrl_details[ctrl]['Type']=='Choice' else '')
 
   def onvaluechange(ctrl, value):
-    print 'Setting',ctrl,value
+    print('Setting',ctrl,value)
     SetCtrlValue(cam_dev, ctrl, value)
 
   widges_img_ctrl= {}
@@ -152,8 +152,8 @@ if __name__=='__main__':
     raise Exception('Device not found:',cam_dev)
 
   def Print(*s):
-    for ss in s:  print ss,
-    print ''
+    for ss in s:  print(ss, end=' ')
+    print('')
 
   widges_img_ctrl,layout_img_ctrl,ctrls,ctrl_details= GenerateImgCtrlWidges(cam_dev)
 

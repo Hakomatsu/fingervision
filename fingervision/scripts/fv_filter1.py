@@ -50,11 +50,11 @@ def BlobMoves(msg,fv,side,pub_fwrench,pub_wrench,options):
     else:  dstate= 5
     return dstate
   posforce_array= np.array([convert_raw(mv) for mv in msg.data])
-  print("posforce: "+str(posforce_array))
+  print(("posforce: "+str(posforce_array)))
   force_array= np.array([convert_wrench(p_f) for p_f in posforce_array])
-  print("force: "+str(force_array))
+  print(("force: "+str(force_array)))
   dstate_array= [convert_dstate(p_f) for p_f in posforce_array]
-  print("dstate: "+str(dstate_array))
+  print(("dstate: "+str(dstate_array)))
   if len(force_array)>0:
     if options['reduction_mode']=='mean':  force= np.mean(force_array, axis=0)
     elif options['reduction_mode'] in ('median','median+'):
